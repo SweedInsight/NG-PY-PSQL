@@ -1,0 +1,4 @@
+FROM nginx
+LABEL maintainer="David Rahäuser <github@sweedinsight.net>"
+COPY nginx/default.conf /etc/nginx/conf.d
+COPY dist/zoomapp /usr/share/nginx/html

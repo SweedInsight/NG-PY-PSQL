@@ -1,0 +1,40 @@
+version: "3.8"
+services:
+  flaskbackend:
+    image: flask-tutorial:latest  
+    ports: 
+      - 5000:5000
+  database:
+    container_name: postgres-compose
+    image: postgres
+    build: 
+      context: ./postgres
+      dockerfile: Dockerfile-postgres 
+    ports:
+      - 5432:5432 
+    environment:
+      POSTGRES_DB: authentication
+      POSTGRES_USER: "testmail@gmail.com"
+      POSTGRES_PASSWORD: "project"
+    networks:
+      - postgresql
+
+  pgadmin4:
+      image: dpage/pgadmin4
+      restart: always
+      environment:
+        PGADMIN_DEFAULT_EMAIL: "testmail@gmail.com"
+        PGADMIN_DEFAULT_PASSWORD: "project"
+        PGADMIN_LISTEN_PORT: 4800
+      ports:
+        - "4800:4800"
+      depends_on:
+        - database
+      networks:
+        - postgresql
+
+
+  
+networks:
+  postgresql:
+        driver: bridge
